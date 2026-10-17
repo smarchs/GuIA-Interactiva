@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Institucional: Uso Responsable de la IA</title>
+  <style>
+    :root {
+      --bg: #f3f4f8; --surface: #ffffff; --card: #fafafc;
+      --text: #0f172a; --muted: #64748b; --border: #e2e8f0;
+      --accent: #4f46e5; --accent-hover: #4338ca;
+      --green: #047857; --red: #b91c1c; --yellow: #b45309;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #090a0f; --surface: #12141c; --card: #181b26;
+        --text: #f8fafc; --muted: #94a3b8; --border: #282d3f;
+        --accent: #818cf8; --accent-hover: #6366f1;
+        --green: #34d399; --red: #f87171; --yellow: #fbbf24;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 14px; line-height: 1.5; padding: 24px 16px 60px;
+      max-width: 900px; margin: 0 auto;
+    }
+    header { margin-bottom: 24px; text-align: left; }
+    header .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+    header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin: 4px 0; }
+    header .sub { font-size: 13px; color: var(--muted); }
+
+    .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; flex-wrap: wrap; }
+    .tab-btn {
+      background: transparent; border: none; padding: 8px 14px; border-radius: 6px;
+      color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.15s;
+    }
+    .tab-btn:hover { background: var(--surface); color: var(--text); }
+    .tab-btn.active { background: var(--accent); color: #fff; }
+
+    .module-section { display: none; }
+    .module-section.active { display: block; }
+
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px; display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: transform 0.15s, border-color 0.15s;
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .card-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .card-desc { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; flex-grow: 1; }
+
+    .btn-action {
+      background: var(--card); border: 1px solid var(--border); color: var(--text);
+      padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      cursor: pointer; text-align: center; text-decoration: none; display: inline-flex;
+      align-items: center; justify-content: center; gap: 6px; transition: 0.15s;
+    }
+    .btn-action:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-action.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-action.primary:hover { background: var(--accent-hover); }
+
+    /* Modal / Ventana emergente */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center;
+      z-index: 100; padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      max-width: 650px; width: 100%; max-height: 85vh; display: flex; flex-direction: column;
+      overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-header {
+      padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .modal-header h3 { font-size: 16px; font-weight: 700; }
+    .close-btn { background: none; border: none; font-size: 20px; color: var(--muted); cursor: pointer; }
+    .modal-body { padding: 18px; overflow-y: auto; font-size: 13.5px; line-height: 1.6; }
+    .modal-body p { margin-bottom: 12px; }
+    .modal-body ul { margin-left: 20px; margin-bottom: 12px; }
+
+    /* Caja para iframe interactivo */
+    .embed-box {
+      position: relative; width: 100%; padding-bottom: 56.25%; height: 0;
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #000;
+    }
+    .embed-box iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:0; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="label">Guía de Alfabetización y Ética Digital</div>
+    <h1>Uso Responsable y Crítico de la IA</h1>
+    <p class="sub">Marco conceptual, orientaciones de aula y actividades de autoevaluación.</p>
+  </header>
+
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('teoria')">1. Marco Teórico</button>
+    <button class="tab-btn" onclick="switchTab('criterios')">2. Pautas & Criterios</button>
+    <button class="tab-btn" onclick="switchTab('actividades')">3. Desafíos Educaplay</button>
+    <button class="tab-btn" onclick="switchTab('documentos')">4. Documentos & Protocolos</button>
+  </nav>
+
+  <!-- MÓDULO 1: TEORÍA -->
+  <section id="mod-teoria" class="module-section active">
+    <div class="grid-cards">
+      <div class="card">
+        <div>
+          <div class="card-title">Naturaleza Probabilística</div>
+          <div class="card-desc">Diferencia entre motores de búsqueda y la predicción de secuencias basada en cálculo estadístico.</div>
+        </div>
+        <button class="btn-action" onclick="openModal('modal-prob')">Ver concepto →</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-title">Alucinaciones y Veracidad</div>
+          <div class="card-desc">Por qué los modelos inventan datos plausibles pero falsos y cómo auditar citas técnicas inexistentes.</div>
+        </div>
+        <button class="btn-action" onclick="openModal('modal-alucinacion')">Ver concepto →</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-title">Sesgos y Justicia Algorítmica</div>
+          <div class="card-desc">Sesgos del Norte Global, sesgos inducidos por el usuario y protección de la diversidad cultural.</div>
+        </div>
+        <button class="btn-action" onclick="openModal('modal-sesgo')">Ver concepto →</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-title">Marco Legal y Privacidad</div>
+          <div class="card-desc">Protección de NNyA (Ley N° 4109) y prohibición de subir datos del LUA a IA comerciales.</div>
+        </div>
+        <button class="btn-action" onclick="openModal('modal-privacidad')">Ver marco normativo →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULO 2: CRITERIOS Y PAUTAS -->
+  <section id="mod-criterios" class="module-section">
+    <div class="grid-cards">
+      <div class="card">
+        <div>
+          <div class="card-title">Matriz de Versiones (V1 → V2 → V3)</div>
+          <div class="card-desc">Proceso de acreditación: Borrador inicial humano, interacción analítica con IA y validación final de taller.</div>
+        </div>
+        <button class="btn-action" onclick="openModal('modal-v1v2v3')">Ver protocolo →</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-title">El Fenómeno "ChatGPT Pickleball"</div>
+          <div class="card-desc">Cómo evitar el circuito cerrado inútil donde docentes y estudiantes automatizan sin aprender.</div>
+        </div>
+        <button class="btn-action" onclick="openModal('modal-pickleball')">Ver análisis →</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-title">Decálogo de Taller</div>
+          <div class="card-desc">10 pautas operativas esenciales para el uso de herramientas computacionales en proyectos técnicos.</div>
+        </div>
+        <button class="btn-action" onclick="openModal('modal-decalogo')">Ver decálogo →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULO 3: ACTIVIDADES EDUCAPLAY -->
+  <section id="mod-actividades" class="module-section">
+    <div class="grid-cards">
+      <div class="card">
+        <div>
+          <div class="card-title">Trivia: Dilemas Éticos</div>
+          <div class="card-desc">Identifica si la práctica docente o estudiantil cumple con la normativa y el pacto formativo.</div>
+        </div>
+        <button class="btn-action primary" onclick="openModal('modal-embed-trivia')">Iniciar actividad interactiva 🎮</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-title">Detector de Alucinaciones</div>
+          <div class="card-desc">Ejercicio práctico para encontrar citas bibliográficas inventadas y normativas foráneas en respuestas de IA.</div>
+        </div>
+        <a class="btn-action" href="https://www.educaplay.com" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULO 4: DOCUMENTOS Y PROTOCOLOS -->
+  <section id="mod-documentos" class="module-section">
+    <div class="grid-cards">
+      <div class="card">
+        <div>
+          <div class="card-title">Informe CeNET-INET 2026</div>
+          <div class="card-desc">Bases pedagógicas y criterios de taller para la Educación Técnico Profesional.</div>
+        </div>
+        <a class="btn-action" href="informe_cenet.pdf" target="_blank">Descargar PDF 📄</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-title">Guía de Privacidad (Ley N° 4109)</div>
+          <div class="card-desc">Protocolo de anonimización de datos y resguardo institucional en Río Negro.</div>
+        </div>
+        <a class="btn-action" href="protocolo_privacidad.pdf" target="_blank">Descargar PDF 📄</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VENTANA MODAL (CONTENEDOR DE CONTENIDO) -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Detalle</h3>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // Navegación de pestañas
+    function switchTab(tabKey) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.module-section').forEach(sec => sec.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(`mod-${tabKey}`).classList.add('active');
+    }
+
+    // Contenidos cargados desde las fuentes del cuaderno
+    const contents = {
+      'modal-prob': {
+        title: 'IA Generativa vs. Buscadores Tradicionales',
+        html: `<p>A diferencia de los buscadores convencionales que indizan y devuelven enlaces a sitios web existentes, los modelos de lenguaje (LLM) no buscan información preexistente en tiempo real; calculan estadísticamente cuál es la palabra o token más probable para continuar un texto[cite: 3].</p><p>Como señala la UNESCO, <em>"generan respuestas plausibles basadas en patrones de datos, pero no poseen comprensión ni intencionalidad"</em>[cite: 3]. El rol del estudiante se traslada de la simple búsqueda a la auditoría y curaduría crítica[cite: 3].</p>`
+      },
+      'modal-alucinacion': {
+        title: 'Alucinaciones y Citas Ficticias',
+        html: `<p>Una alucinación ocurre cuando el modelo articula una respuesta con alta seguridad sintáctica y gramatical, pero con datos falsos o bibliografía totalmente inexistente[cite: 1, 3].</p><p><strong>Acción correctora:</strong> Nunca validar una cita o norma técnica (como la IRAM 4513) sin contrastar con fuentes primarias o bibliografía física de taller[cite: 1, 3]. Una IA no es fuente bibliográfica, sino una herramienta de consulta[cite: 5].</p>`
+      },
+      'modal-sesgo': {
+        title: 'Doble Vía de Sesgos',
+        html: `<p>Existen dos fuentes principales de sesgo al usar modelos de lenguaje:</p><ul><li><strong>Sesgo de origen:</strong> Dominancia cultural y normativa del Norte Global en las bases de datos de entrenamiento[cite: 3].</li><li><strong>Sesgo inducido:</strong> Prompts tendenciosos formulados por el propio usuario que empujan a la IA a confirmar prejuicios[cite: 3].</li></ul><p>Se debe exigir en las consultas la representación de la realidad local y normativa argentina[cite: 1, 3].</p>`
+      },
+      'modal-privacidad': {
+        title: 'Resguardo de Datos Personales (Ley Provincial N° 4109)',
+        html: `<p>En cumplimiento de la Ley N° 4109 de Río Negro para la protección de NNyA, <strong>está terminantemente prohibido</strong> cargar en IA comerciales:</p><ul><li>Nombres o DNI de estudiantes[cite: 3].</li><li>Evaluaciones psicopedagógicas o actas de convivencia[cite: 3].</li><li>Registros extraídos del LUA (Legajo Único de Alumnos)[cite: 3].</li></ul><p>Toda interacción institucional que analice producciones debe utilizar datos previamente anonimizados[cite: 3].</p>`
+      },
+      'modal-v1v2v3': {
+        title: 'Matriz de Acreditación (V1 → V2 → V3)',
+        html: `<p>El docente no evalúa el producto cerrado, sino el proceso de interacción[cite: 1]:</p><ul><li><strong>V1 (Croquis humano inicial):</strong> El estudiante plantea su diseño, cálculo o hipótesis preliminar[cite: 1].</li><li><strong>V2 (Interacción con IA):</strong> Se somete a la IA para buscar optimizaciones, contraejemplos o redacción[cite: 1].</li><li><strong>V3 (Validación situada):</strong> El estudiante contrasta la respuesta con el banco de trabajo, normas IRAM o mediciones de taller[cite: 1].</li></ul>`
+      },
+      'modal-pickleball': {
+        title: 'El Fenómeno "ChatGPT Pickleball"',
+        html: `<p>Circuito cerrado e inútil donde el docente usa IA para crear consignas y correcciones automáticas, mientras el estudiante usa IA para redactar las respuestas[cite: 1].</p><p>Esto anula el juicio crítico y la mediación formativa[cite: 1]. La consigna escolar debe volver a basarse en problemas auténticos, mediciones empíricas y debate oral[cite: 1].</p>`
+      },
+      'modal-decalogo': {
+        title: 'Decálogo Esencial de Uso',
+        html: `<ul><li><strong>Bicicleta asistida, no aspiradora robot:</strong> La IA potencia tu esfuerzo, no lo reemplaza[cite: 1].</li><li><strong>Transparencia:</strong> Declará siempre los prompts y las herramientas utilizadas[cite: 1, 3].</li><li><strong>Meta-autoría:</strong> La responsabilidad técnica y ética es indelegablemente humana[cite: 1, 3].</li><li><strong>Validación empírica:</strong> Si contradice la regla o la norma local, la IA está equivocada[cite: 1].</li></ul>`
+      },
+      'modal-embed-trivia': {
+        title: 'Trivia Interactiva: Dilemas Éticos en IA',
+        html: `<p style="margin-bottom:8px;font-size:12px;color:var(--muted);">Reemplazá el enlace del iframe por la URL embebida de tu actividad creada en Educaplay:</p>
+               <div class="embed-box">
+                 <iframe src="https://es.educaplay.com/juego/594132-crucigrama.html" allowfullscreen></iframe>
+               </div>`
+      }
+    };
+
+    function openModal(key) {
+      const item = contents[key];
+      if (!item) return;
+      document.getElementById('modalTitle').textContent = item.title;
+      document.getElementById('modalBody').innerHTML = item.html;
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('modalBody').innerHTML = ''; // Detiene videos/iframes al cerrar
+    }
+
+    function closeModalOnBackdrop(e) {
+      if (e.target.id === 'modalOverlay') closeModal();
+    }
+  </script>
+</body>
+</html>
